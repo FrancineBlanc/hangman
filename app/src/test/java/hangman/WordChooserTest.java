@@ -1,4 +1,4 @@
-package game;
+package hangman;
 
 import org.junit.Test;
 

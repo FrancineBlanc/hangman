@@ -1,4 +1,4 @@
-package game;
+package hangman;
 
 import java.util.Random;
 
@@ -6,7 +6,7 @@ public class WordChooser {
     static final String[] DICTIONARY = {"MAKERS", "CANDIES", "DEVELOPER", "LONDON"};
 
     public String[] getDictionary() {
-        return this.DICTIONARY;
+        return DICTIONARY;
     }
 
     public String getRandomWordFromDictionary() {
