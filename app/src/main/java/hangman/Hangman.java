@@ -8,6 +8,7 @@ public class Hangman {
     private ArrayList<Character> guessedLetters = new ArrayList<>();
     public WordChooser wordChooser;
     public Masker masker;
+    public String maskedWord;
 
     public Hangman(WordChooser wordChooser, Masker masker) {
         this.wordChooser = wordChooser;

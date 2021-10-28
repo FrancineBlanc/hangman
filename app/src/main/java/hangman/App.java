@@ -6,6 +6,7 @@ package hangman;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 public class App {
     public String getGreeting() {
@@ -15,34 +16,83 @@ public class App {
     public static void main(String[] args) throws IOException {
         WordChooser wordChooser = new WordChooser();
         Masker masker = new Masker();
-        Hangman hangman = new Hangman(wordChooser, masker);
-        String wordToGuess = hangman.getWordToGuess();
 
-        System.out.println("Welcome! Today the word to guess is:\n" + wordToGuess);
-        int remainingAttempts = hangman.getRemainingAttempts();
+        Hangman game1 = new Hangman(wordChooser, masker);
+        Hangman game2 = new Hangman(wordChooser, masker);
+        Hangman[] hangmanArray = {game1, game2};
 
-        while (remainingAttempts > 0 && wordToGuess.indexOf('_') !=-1) {
-            System.out.println("Enter one letter to guess (" + remainingAttempts + ") remaining:");
+        int randomIndex = new Random().nextInt(hangmanArray.length);
+        Hangman startingPlayer = hangmanArray[randomIndex];
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            Character c = reader.readLine().charAt(0);
+        Hangman player1;
+        Hangman player2;
 
-            if (hangman.guessLetter(c)) {
+        if (startingPlayer.equals(game1)) {
+            player1 = game1;
+            player2 = game2;
+        } else {
+            player1 = game2;
+            player2 = game1;
+        }
+
+        String firstPlayerWordToGuess = player1.getWordToGuess();
+        String secondPlayerWordToGuess = player2.getWordToGuess();
+
+        System.out.println("Welcome! Today the word to guess is:\nPlayer 1: " + firstPlayerWordToGuess + "\nPlayer 2:" +
+                " " + secondPlayerWordToGuess);
+        int firstPlayerRemainingAttempts = player1.getRemainingAttempts();
+        int secondPlayerRemainingAttempts = player2.getRemainingAttempts();
+
+
+        while (firstPlayerRemainingAttempts > 0 && firstPlayerWordToGuess.indexOf('_') !=-1 && secondPlayerRemainingAttempts > 0 && secondPlayerWordToGuess.indexOf('_') != -1) {
+            System.out.println("Player 1: Enter one letter to guess (" + firstPlayerRemainingAttempts + ") remaining:");
+
+            BufferedReader player1Reader = new BufferedReader(new InputStreamReader(System.in));
+            Character player1Guess = player1Reader.readLine().toUpperCase().charAt(0);
+
+            if (player1.guessLetter(player1Guess)) {
                 System.out.println("Right!");
-                wordToGuess = hangman.getWordToGuess();
+                firstPlayerWordToGuess = player1.getWordToGuess();
             } else {
                 System.out.println("Wrong...");
             }
-            System.out.println(wordToGuess);
-            remainingAttempts = hangman.getRemainingAttempts();
+            System.out.println(firstPlayerWordToGuess + "\n");
+            firstPlayerRemainingAttempts = player1.getRemainingAttempts();
 
-            if (hangman.isGameLost()) {
-                System.out.println("You lost!");
+            if (player1.isGameLost()) {
+                System.out.println("Player 1 lost!");
+                break;
             }
 
-            if (hangman.isGameWon()) {
-                System.out.println("You won!");
+            if (player1.isGameWon()) {
+                System.out.println("Player 1 won!");
+                break;
             }
-         }
+
+            System.out.println("Player 2: Enter one letter to guess (" + secondPlayerRemainingAttempts + ") remaining" +
+                    ":");
+
+            BufferedReader player2Reader = new BufferedReader(new InputStreamReader(System.in));
+            Character player2Guess = player2Reader.readLine().toUpperCase().charAt(0);
+
+            if (player2.guessLetter(player2Guess)) {
+                System.out.println("Right!");
+                secondPlayerWordToGuess = player2.getWordToGuess();
+            } else {
+                System.out.println("Wrong...");
+            }
+            System.out.println(secondPlayerWordToGuess + "\n");
+            secondPlayerRemainingAttempts = player2.getRemainingAttempts();
+
+            if (player2.isGameLost()) {
+                System.out.println("Player 2 lost!");
+                break;
+            }
+
+            if (player2.isGameWon()) {
+                System.out.println("Player 2 won!");
+                break;
+            }
+        }
     }
 }
