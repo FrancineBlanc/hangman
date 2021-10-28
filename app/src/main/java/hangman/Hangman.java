@@ -16,7 +16,7 @@ public class Hangman {
     public String getWordToGuess() {
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < wordToGuess.length(); i++) {
-            Character currentLetter = wordToGuess.charAt(i);
+            char currentLetter = wordToGuess.charAt(i);
             if (i == 0) {
                 stringBuilder.append(currentLetter);
             } else {
@@ -46,5 +46,19 @@ public class Hangman {
         }
         this.counter--;
         return false;
+    }
+
+    public boolean isGameLost() {
+        return this.getRemainingAttempts() == 0;
+    }
+
+    public boolean isGameWon() {
+        for (int i = 1; i < wordToGuess.length(); i++) {
+            char letter = wordToGuess.charAt(i);
+            if (!guessedLetters.contains(letter)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

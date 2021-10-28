@@ -34,6 +34,14 @@ public class App {
             }
             System.out.println(wordToGuess);
             remainingAttempts = hangman.getRemainingAttempts();
-        }
+
+            if (hangman.isGameLost()) {
+                System.out.println("You lost!");
+            }
+
+            if (hangman.isGameWon()) {
+                System.out.println("You won!");
+            }
+         }
     }
 }

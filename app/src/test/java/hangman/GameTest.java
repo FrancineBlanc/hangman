@@ -45,4 +45,31 @@ public class GameTest {
         assertTrue(hangman.getGuessedLetters().isEmpty());
     }
 
+    @Test
+    public void testIsGameLost() {
+        hangman.guessLetter('Q');
+        hangman.guessLetter('W');
+        hangman.guessLetter('T');
+        hangman.guessLetter('Y');
+        hangman.guessLetter('U');
+        hangman.guessLetter('I');
+        hangman.guessLetter('O');
+        hangman.guessLetter('P');
+        hangman.guessLetter('D');
+        hangman.guessLetter('F');
+        assertEquals(hangman.getRemainingAttempts(), 0);
+        assertTrue(hangman.isGameLost());
+    }
+
+    @Test
+    public void testIsGameWon() {
+        hangman.guessLetter('A');
+        hangman.guessLetter('K');
+        hangman.guessLetter('E');
+        hangman.guessLetter('R');
+        hangman.guessLetter('S');
+        assertEquals(hangman.getRemainingAttempts(), 10);
+        assertTrue(hangman.isGameWon());
+    }
+
 }
