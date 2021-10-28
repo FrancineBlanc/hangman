@@ -14,7 +14,8 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         WordChooser wordChooser = new WordChooser();
-        Hangman hangman = new Hangman(wordChooser);
+        Masker masker = new Masker();
+        Hangman hangman = new Hangman(wordChooser, masker);
         String wordToGuess = hangman.getWordToGuess();
 
         System.out.println("Welcome! Today the word to guess is:\n" + wordToGuess);

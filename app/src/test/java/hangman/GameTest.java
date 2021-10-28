@@ -11,16 +11,19 @@ import static org.mockito.Mockito.when;
 public class GameTest {
     @Test
     public void testGetRemainingAttempts() {
-        Hangman hangman = new Hangman(new WordChooser());
+        Hangman hangman = new Hangman(new WordChooser(), new Masker());
         assertEquals(hangman.getRemainingAttempts(), 10);
     }
 
     Hangman hangman;
+    Masker mockedMasker;
     @Before
     public void initialise() {
         WordChooser mockedWordChooser = mock(WordChooser.class);
         when(mockedWordChooser.getRandomWordFromDictionary()).thenReturn("MAKERS");
-        hangman = new Hangman(mockedWordChooser);
+        mockedMasker = mock(Masker.class);
+        hangman = new Hangman(mockedWordChooser, mockedMasker);
+        when(mockedMasker.getMaskedWord("MAKERS", hangman.getGuessedLetters())).thenReturn("M_____");
     }
     @Test
     public void testGetsWordToGuessWithRandomWord() {
@@ -34,7 +37,7 @@ public class GameTest {
 
         Character c = hangman.getGuessedLetters().get(0);
         assertEquals(c, Character.valueOf('A'));
-
+        when(mockedMasker.getMaskedWord("MAKERS", hangman.getGuessedLetters())).thenReturn("MA____");
         assertEquals(hangman.getWordToGuess(), "MA____");
     }
 

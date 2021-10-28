@@ -7,27 +7,16 @@ public class Hangman {
     private int counter = 10;
     private ArrayList<Character> guessedLetters = new ArrayList<>();
     public WordChooser wordChooser;
+    public Masker masker;
 
-    public Hangman(WordChooser wordChooser) {
+    public Hangman(WordChooser wordChooser, Masker masker) {
         this.wordChooser = wordChooser;
         this.wordToGuess = wordChooser.getRandomWordFromDictionary();
+        this.masker = masker;
     }
 
     public String getWordToGuess() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i < wordToGuess.length(); i++) {
-            char currentLetter = wordToGuess.charAt(i);
-            if (i == 0) {
-                stringBuilder.append(currentLetter);
-            } else {
-                if (guessedLetters.contains(currentLetter)) {
-                    stringBuilder.append(currentLetter);
-                } else {
-                    stringBuilder.append("_");
-                }
-            }
-        }
-        return stringBuilder.toString();
+        return masker.getMaskedWord(this.wordToGuess, this.guessedLetters);
     }
 
     public int getRemainingAttempts() {
