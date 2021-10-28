@@ -6,16 +6,18 @@ public class Hangman {
     private String wordToGuess;
     private int counter = 10;
     private ArrayList<Character> guessedLetters = new ArrayList<>();
+    private String playerName;
     public WordChooser wordChooser;
     public Masker masker;
     public String maskedWord;
 
-    public Hangman(WordChooser wordChooser, Masker masker) {
+    public Hangman(String playerName, WordChooser wordChooser, Masker masker) {
+        this.playerName = playerName;
         this.wordChooser = wordChooser;
         this.wordToGuess = wordChooser.getRandomWordFromDictionary();
         this.masker = masker;
     }
-
+    public String getPlayerName() { return this.playerName; }
     public String getWordToGuess() {
         return masker.getMaskedWord(this.wordToGuess, this.guessedLetters);
     }

@@ -17,8 +17,16 @@ public class App {
         WordChooser wordChooser = new WordChooser();
         Masker masker = new Masker();
 
-        Hangman game1 = new Hangman(wordChooser, masker);
-        Hangman game2 = new Hangman(wordChooser, masker);
+        System.out.println("Enter name for player 1:");
+        BufferedReader nameReader1 = new BufferedReader(new InputStreamReader(System.in));
+        String name1 = nameReader1.readLine();
+
+        System.out.println("Enter name for player 2:");
+        BufferedReader nameReader2 = new BufferedReader(new InputStreamReader(System.in));
+        String name2 = nameReader2.readLine();
+
+        Hangman game1 = new Hangman(name1, wordChooser, masker);
+        Hangman game2 = new Hangman(name2, wordChooser, masker);
         Hangman[] hangmanArray = {game1, game2};
 
         int randomIndex = new Random().nextInt(hangmanArray.length);
@@ -38,14 +46,17 @@ public class App {
         String firstPlayerWordToGuess = player1.getWordToGuess();
         String secondPlayerWordToGuess = player2.getWordToGuess();
 
-        System.out.println("Welcome! Today the word to guess is:\nPlayer 1: " + firstPlayerWordToGuess + "\nPlayer 2:" +
-                " " + secondPlayerWordToGuess);
+        System.out.printf("Welcome! Today the word to guess is:\n%s: %s\n%s: %s\n", player1.getPlayerName(),
+                firstPlayerWordToGuess, player2.getPlayerName(), secondPlayerWordToGuess);
+
         int firstPlayerRemainingAttempts = player1.getRemainingAttempts();
         int secondPlayerRemainingAttempts = player2.getRemainingAttempts();
 
 
         while (firstPlayerRemainingAttempts > 0 && firstPlayerWordToGuess.indexOf('_') !=-1 && secondPlayerRemainingAttempts > 0 && secondPlayerWordToGuess.indexOf('_') != -1) {
-            System.out.println("Player 1: Enter one letter to guess (" + firstPlayerRemainingAttempts + ") remaining:");
+            System.out.println(player1.getPlayerName() + ": Enter one letter to guess (" + firstPlayerRemainingAttempts +
+                    ") " +
+                    "remaining:");
 
             BufferedReader player1Reader = new BufferedReader(new InputStreamReader(System.in));
             Character player1Guess = player1Reader.readLine().toUpperCase().charAt(0);
@@ -60,16 +71,18 @@ public class App {
             firstPlayerRemainingAttempts = player1.getRemainingAttempts();
 
             if (player1.isGameLost()) {
-                System.out.println("Player 1 lost!");
+                System.out.println(player1.getPlayerName() + " lost!");
                 break;
             }
 
             if (player1.isGameWon()) {
-                System.out.println("Player 1 won!");
+                System.out.println(player1.getPlayerName() + " won!");
                 break;
             }
 
-            System.out.println("Player 2: Enter one letter to guess (" + secondPlayerRemainingAttempts + ") remaining" +
+            System.out.println(player2.getPlayerName() + ": Enter one letter to guess (" + secondPlayerRemainingAttempts +
+                    ") " +
+                    "remaining" +
                     ":");
 
             BufferedReader player2Reader = new BufferedReader(new InputStreamReader(System.in));
@@ -85,12 +98,12 @@ public class App {
             secondPlayerRemainingAttempts = player2.getRemainingAttempts();
 
             if (player2.isGameLost()) {
-                System.out.println("Player 2 lost!");
+                System.out.println(player2.getPlayerName() + " lost!");
                 break;
             }
 
             if (player2.isGameWon()) {
-                System.out.println("Player 2 won!");
+                System.out.println(player2.getPlayerName() + " won!");
                 break;
             }
         }

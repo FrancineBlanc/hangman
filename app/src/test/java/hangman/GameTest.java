@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 public class GameTest {
     @Test
     public void testGetRemainingAttempts() {
-        Hangman hangman = new Hangman(new WordChooser(), new Masker());
+        Hangman hangman = new Hangman("Linda", new WordChooser(), new Masker());
         assertEquals(hangman.getRemainingAttempts(), 10);
     }
 
@@ -22,9 +22,15 @@ public class GameTest {
         WordChooser mockedWordChooser = mock(WordChooser.class);
         when(mockedWordChooser.getRandomWordFromDictionary()).thenReturn("MAKERS");
         mockedMasker = mock(Masker.class);
-        hangman = new Hangman(mockedWordChooser, mockedMasker);
+        hangman = new Hangman("Linda", mockedWordChooser, mockedMasker);
         when(mockedMasker.getMaskedWord("MAKERS", hangman.getGuessedLetters())).thenReturn("M_____");
     }
+
+    @Test
+    public void testsHasNameProperty() {
+        assertEquals(hangman.getPlayerName(), "Linda");
+    }
+
     @Test
     public void testGetsWordToGuessWithRandomWord() {
         assertEquals(hangman.getWordToGuess(), "M_____");
